@@ -143,7 +143,7 @@ class Swetest extends AbstractGanita
                         $houses = $stringHouses;
                         break;
                     default:
-                        continue;
+                        continue 2;
                 }
             }
         }
@@ -215,7 +215,7 @@ class Swetest extends AbstractGanita
             $parametersString = str_replace(' ', '', $v);
             $parameters = explode(',', $parametersString);
             $bodyName   = $parameters[0];
-            $units      = Math::partsToUnits($parameters[1]);
+            $units      = Math::partsToUnits(@$parameters[1]);
 
             if (array_key_exists($bodyName, $this->outputPlanets)) {
                 $dataParams[Data::BLOCK_GRAHA][$this->outputPlanets[$bodyName]] = [
@@ -278,10 +278,10 @@ class Swetest extends AbstractGanita
         $DateTime = $this->Data->getDateTime();
         
         for ($i = 1; $i <= 4; $i++) {
-            preg_match("#rise\s((.*\d+)\s+(\d{1,2}:.*))\sset\s((.*\d+)\s+(\d{1,2}:[\d\s\.:]+))#", $input[$i+1], $matches);
+            preg_match("#rise\s((.*\d+)\s+(\d{1,2}:.*))\sset\s((.*\d+)\s+(\d{1,2}:[\d\s\.:]+))#", @$input[$i+1], $matches);
 
-            $risingString  = str_replace(' ', '', $matches[2]).' '.str_replace(' ', '', $matches[3]);
-            $settingString = str_replace(' ', '', $matches[5]).' '.str_replace(' ', '', $matches[6]);
+            $risingString  = str_replace(' ', '', @$matches[2]).' '.str_replace(' ', '', @$matches[3]);
+            $settingString = str_replace(' ', '', @$matches[5]).' '.str_replace(' ', '', @$matches[6]);
 
             $risingObject = new DateTime($risingString, new DateTimeZone('UTC'));
             $risingObject->setTimezone($DateTime->getTimezone());
